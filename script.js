@@ -6,20 +6,25 @@ document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("rpgForm");
   const mensagemFinal = document.getElementById("mensagemFinal");
 
-  function nextQuestion() {
-    const inputAtual = questions[current].querySelector('input, textarea');
-    if (!inputAtual.checkValidity()) {
-      inputAtual.reportValidity();
-      return;
+  function validarCampos(pergunta) {
+    const campos = pergunta.querySelectorAll("input, textarea, select");
+    for (const campo of campos) {
+      if (!campo.checkValidity()) {
+        campo.reportValidity();
+        return false;
+      }
     }
+    return true;
+  }
+
+  function nextQuestion() {
+    if (!validarCampos(questions[current])) return;
 
     questions[current].classList.remove("active");
     current++;
 
     if (current < total) {
       questions[current].classList.add("active");
-
-      // Scroll suave para a pergunta
       setTimeout(() => {
         questions[current].scrollIntoView({ behavior: "smooth", block: "center" });
       }, 150);
@@ -33,11 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
   form.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const inputAtual = questions[current].querySelector('input, textarea');
-    if (!inputAtual.checkValidity()) {
-      inputAtual.reportValidity();
-      return;
-    }
+    if (!validarCampos(questions[current])) return;
 
     const formData = new FormData(form);
     const nome = formData.get("nome") || "Usuário";
@@ -47,22 +48,22 @@ document.addEventListener("DOMContentLoaded", function () {
       body: formData,
       headers: { 'Accept': 'application/json' }
     })
-      .then(response => {
-        if (response.ok) {
-          form.style.display = "none";
-          mensagemFinal.innerHTML = `Entraremos em contato em breve, <strong>${nome.toUpperCase()}</strong>.`;
-          mensagemFinal.classList.add("show");
-          mensagemFinal.scrollIntoView({ behavior: "smooth", block: "center" });
-        } else {
-          return response.json().then(data => {
-            throw new Error(data.error || "Erro ao enviar formulário.");
-          });
-        }
-      })
-      .catch((err) => {
-        alert("Erro ao enviar. Tente novamente.");
-        console.error(err);
-      });
+    .then(response => {
+      if (response.ok) {
+        form.style.display = "none";
+        mensagemFinal.innerHTML = `Entraremos em contato em breve, <strong>${nome.toUpperCase()}</strong>.`;
+        mensagemFinal.classList.add("show");
+        mensagemFinal.scrollIntoView({ behavior: "smooth", block: "center" });
+      } else {
+        return response.json().then(data => {
+          throw new Error(data.error || "Erro ao enviar formulário.");
+        });
+      }
+    })
+    .catch((err) => {
+      alert("Erro ao enviar. Tente novamente.");
+      console.error(err);
+    });
   });
 });
 </script>

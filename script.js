@@ -35,7 +35,7 @@
     const formData = new FormData(form);
     const nome = formData.get("nome");
 
-    fetch("https://formspree.io/f/SUA_URL_FORMSPREE", {
+    fetch("https://formspree.io/f/xblovjbb", {
       method: "POST",
       body: formData,
       headers: { 'Accept': 'application/json' }

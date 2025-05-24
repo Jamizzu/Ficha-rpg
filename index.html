@@ -5,18 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Formulário RPG</title>
   <link rel="stylesheet" href="style.css" />
-
-  <!-- Música de fundo em loop -->
-  <audio id="backgroundMusic" src="musica.mp3" autoplay loop></audio>
 </head>
 <body>
+
+  <!-- Música de fundo -->
+  <audio autoplay loop hidden>
+    <source src="musica.mp3" type="audio/mpeg" />
+    Seu navegador não suporta áudio.
+  </audio>
+
   <div class="container">
-    <form
-      id="rpgForm"
-      action="https://formspree.io/f/xblovjbb"
-      method="POST"
-      novalidate
-    >
+    <form id="rpgForm" action="https://formspree.io/f/xblovjbb" method="POST" novalidate>
+      
       <div class="question active">
         <label for="medo">O seu maior medo?</label>
         <textarea id="medo" name="medo" required></textarea>
@@ -55,13 +55,7 @@
 
       <div class="question">
         <label for="idadePersonagem">Idade do personagem:</label>
-        <input
-          type="number"
-          id="idadePersonagem"
-          name="idadePersonagem"
-          required
-          min="1"
-        />
+        <input type="number" id="idadePersonagem" name="idadePersonagem" required min="1" />
         <button type="button" class="nextBtn">Próxima</button>
       </div>
 
@@ -78,14 +72,8 @@
       </div>
 
       <div class="question">
-        <label for="telefone">O seu número de telefone:</label>
-        <input
-          type="tel"
-          id="telefone"
-          name="telefone"
-          required
-          pattern="[0-9\s()+-]{8,}"
-        />
+        <label for="telefone">Seu número de telefone:</label>
+        <input type="tel" id="telefone" name="telefone" required pattern="[0-9\s()+-]{8,}" />
         <button type="submit">Enviar</button>
       </div>
     </form>

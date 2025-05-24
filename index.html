@@ -120,8 +120,8 @@
         current++;
         questions[current].classList.add('active');
 
-        // Scroll para o topo da pergunta atual (bom para mobile)
-        questions[current].scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // **Scroll removido para evitar scroll automático**
+        // questions[current].scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
 
       nextBtns.forEach(btn => {
@@ -136,13 +136,13 @@
 
         let formatted = val;
         if (val.length > 10) {
-          formatted = (${val.slice(0,2)}) ${val.slice(2,7)}-${val.slice(7)};
+          formatted = `(${val.slice(0,2)}) ${val.slice(2,7)}-${val.slice(7)}`;
         } else if (val.length > 5) {
-          formatted = (${val.slice(0,2)}) ${val.slice(2,6)}-${val.slice(6)};
+          formatted = `(${val.slice(0,2)}) ${val.slice(2,6)}-${val.slice(6)}`;
         } else if (val.length > 2) {
-          formatted = (${val.slice(0,2)}) ${val.slice(2)};
+          formatted = `(${val.slice(0,2)}) ${val.slice(2)}`;
         } else if (val.length > 0) {
-          formatted = (${val};
+          formatted = `(${val}`;
         }
         e.target.value = formatted;
       });
@@ -168,7 +168,7 @@
           if (response.ok) {
             form.style.display = "none";
             mensagemFinal.classList.add('show');
-            mensagemFinal.innerHTML = <p>Entraremos em contato em breve, <strong>${nome}</strong>.</p>;
+            mensagemFinal.innerHTML = `<p>Entraremos em contato em breve, <strong>${nome}</strong>.</p>`;
             mensagemFinal.scrollIntoView({ behavior: 'smooth' });
           } else {
             alert("Erro ao enviar o formulário. Tente novamente.");
@@ -182,5 +182,3 @@
   </script>
 </body>
 </html>
-
-

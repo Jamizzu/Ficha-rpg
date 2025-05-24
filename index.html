@@ -1,23 +1,186 @@
-<form id="rpgForm" class="container">
-  <div class="question active">
-    <label for="nome">Qual seu nome?</label>
-    <input type="text" name="nome" required>
-    <button type="button" class="nextBtn">Próxima</button>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ficha de RPG - Nexus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Adicione esse estilo no seu style.css se quiser */
+    #mensagemFinal {
+      font-size: 1.5em;
+      text-align: center;
+      margin-top: 30px;
+      color: var(--cor-principal);
+      opacity: 0;
+      transform: translateY(40px) scale(0.95);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      pointer-events: none;
+    }
+    #mensagemFinal.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form id="rpgForm" action="https://formspree.io/f/xblovjbb" method="POST" autocomplete="off" novalidate>
+      <div class="question active">
+        <label>O que você mais tem medo de perder?</label>
+        <textarea name="medo" required rows="3"></textarea>
+        <button type="button" id="nextBtn">Próxima</button>
+      </div>
+
+      <div class="question">
+        <label>O que você mais almeja?</label>
+        <textarea name="desejo" required rows="3"></textarea>
+        <button type="button" id="nextBtn">Próxima</button>
+      </div>
+
+      <div class="question">
+        <label>Do que você seria capaz de fazer para realizá-lo?</label>
+        <textarea name="sacrificio" required rows="3"></textarea>
+        <button type="button" id="nextBtn">Próxima</button>
+      </div>
+
+      <div class="question">
+        <label>Se você tivesse um superpoder, qual seria?</label>
+        <textarea name="poder" required rows="3"></textarea>
+        <button type="button" id="nextBtn">Próxima</button>
+      </div>
+
+      <div class="question">
+        <label>Me fale sobre você:</label>
+        <textarea name="sobre" required rows="3"></textarea>
+        <button type="button" id="nextBtn">Próxima</button>
+      </div>
+
+      <div class="question">
+        <label>Nome:</label>
+        <input type="text" name="nome" id="nome" required />
+        <button type="button" class="nextBtn">Próxima</button>
+      </div>
+
+      <div class="question">
+        <label>Idade:</label>
+        <input type="number" name="idade" required min="1" max="150" />
+        <button type="button" class="nextBtn">Próxima</button>
+      </div>
+
+      <div class="question">
+        <label>Gênero:</label>
+        <input type="text" name="genero" required />
+        <button type="button" class="nextBtn">Próxima</button>
+      </div>
+
+      <div class="question">
+        <label>Seu telefone:</label>
+        <input
+          type="tel"
+          name="telefone"
+          required
+          pattern="[\d\s\-\+\(\)]{7,}"
+          placeholder="Ex: (99) 99999-9999"
+          maxlength="15"
+          id="telefone"
+        />
+        <button type="submit">Enviar</button>
+      </div>
+    </form>
+
+    <div id="mensagemFinal"></div>
   </div>
 
-  <div class="question">
-    <label for="historia">Conte sua história.</label>
-    <textarea name="historia" required></textarea>
-    <button type="button" class="nextBtn">Próxima</button>
-  </div>
+  <a href="/" class="voltar-inicio" title="Voltar ao Início">Voltar ao Início</a>
 
-  <!-- ...outras perguntas... -->
+  <script>
+    (function() {
+      const questions = document.querySelectorAll('.question');
+      const nextBtns = document.querySelectorAll('.nextBtn');
+      const form = document.getElementById('rpgForm');
+      const mensagemFinal = document.getElementById('mensagemFinal');
 
-  <div class="question">
-    <label for="final">Finalização</label>
-    <input type="text" name="final" required>
-    <button type="submit">Enviar</button>
-  </div>
-</form>
+      let current = 0;
 
-<div id="mensagemFinal"></div>
+      // Função para validar e avançar para próxima questão
+      function nextQuestion() {
+        const inputAtual = questions[current].querySelector('input, textarea');
+
+        // Validação HTML5
+        if (!inputAtual.checkValidity()) {
+          inputAtual.reportValidity();
+          return;
+        }
+
+        // Remove active da atual e adiciona na próxima
+        questions[current].classList.remove('active');
+        current++;
+        questions[current].classList.add('active');
+
+        // Scroll para o topo da pergunta atual (bom para mobile)
+        questions[current].scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      nextBtns.forEach(btn => {
+        btn.addEventListener('click', nextQuestion);
+      });
+
+      // Máscara simples para telefone (visual)
+      const telefoneInput = document.getElementById('telefone');
+      telefoneInput.addEventListener('input', (e) => {
+        let val = e.target.value.replace(/\D/g, '');
+        if (val.length > 11) val = val.slice(0, 11);
+
+        let formatted = val;
+        if (val.length > 10) {
+          formatted = (${val.slice(0,2)}) ${val.slice(2,7)}-${val.slice(7)};
+        } else if (val.length > 5) {
+          formatted = (${val.slice(0,2)}) ${val.slice(2,6)}-${val.slice(6)};
+        } else if (val.length > 2) {
+          formatted = (${val.slice(0,2)}) ${val.slice(2)};
+        } else if (val.length > 0) {
+          formatted = (${val};
+        }
+        e.target.value = formatted;
+      });
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const inputAtual = questions[current].querySelector('input, textarea');
+        if (!inputAtual.checkValidity()) {
+          inputAtual.reportValidity();
+          return;
+        }
+
+        const formData = new FormData(form);
+        const nome = formData.get("nome") || "usuário";
+
+        fetch(form.action, {
+          method: "POST",
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        })
+        .then(response => {
+          if (response.ok) {
+            form.style.display = "none";
+            mensagemFinal.classList.add('show');
+            mensagemFinal.innerHTML = <p>Entraremos em contato em breve, <strong>${nome}</strong>.</p>;
+            mensagemFinal.scrollIntoView({ behavior: 'smooth' });
+          } else {
+            alert("Erro ao enviar o formulário. Tente novamente.");
+          }
+        })
+        .catch(() => {
+          alert("Erro na conexão. Tente novamente.");
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
+
+

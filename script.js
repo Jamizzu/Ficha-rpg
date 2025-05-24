@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const mensagemFinal = document.getElementById("mensagemFinal");
 
   function nextQuestion() {
-    const inputAtual = questions[current].querySelector('input, textarea, select');
+    const inputAtual = questions[current].querySelector("input, textarea, select");
     if (!inputAtual.checkValidity()) {
       inputAtual.reportValidity();
       return;
@@ -23,17 +23,43 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  document.querySelectorAll("button.nextBtn").forEach(btn => {
+  document.querySelectorAll("button.nextBtn").forEach((btn) => {
     btn.addEventListener("click", nextQuestion);
   });
 
-  // Quando o formulário for enviado, não bloqueamos o envio.
-  form.addEventListener("submit", function () {
-    const nomePersonagem = form.querySelector("#nomePersonagem")?.value || "Personagem";
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-    form.style.display = "none";
-    mensagemFinal.textContent = `Te vejo em breve: ${nomePersonagem}`;
-    mensagemFinal.classList.add("show");
-    mensagemFinal.scrollIntoView({ behavior: "smooth", block: "center" });
+    const inputAtual = questions[current].querySelector("input, textarea, select");
+    if (!inputAtual.checkValidity()) {
+      inputAtual.reportValidity();
+      return;
+    }
+
+    const formData = new FormData(form);
+    const nomePersonagem = formData.get("nomePersonagem") || "Personagem";
+
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: formData,
+        headers: {
+          Accept: "application/json"
+        }
+      });
+
+      if (response.ok) {
+        form.style.display = "none";
+        mensagemFinal.textContent = `Te vejo em breve: ${nomePersonagem}`;
+        mensagemFinal.classList.add("show");
+        mensagemFinal.scrollIntoView({ behavior: "smooth", block: "center" });
+      } else {
+        mensagemFinal.textContent = "Ocorreu um erro ao enviar. Tente novamente.";
+        mensagemFinal.classList.add("show");
+      }
+    } catch (error) {
+      mensagemFinal.textContent = "Erro de conexão. Verifique sua internet.";
+      mensagemFinal.classList.add("show");
+    }
   });
 });

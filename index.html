@@ -31,31 +31,31 @@
       <div class="question active">
         <label>O que você mais tem medo de perder?</label>
         <textarea name="medo" required rows="3"></textarea>
-        <button type="button" class="nextBtn">Próxima</button>
+        <button type="button" id="nextBtn">Próxima</button>
       </div>
 
       <div class="question">
         <label>O que você mais almeja?</label>
         <textarea name="desejo" required rows="3"></textarea>
-        <button type="button" class="nextBtn">Próxima</button>
+        <button type="button" id="nextBtn">Próxima</button>
       </div>
 
       <div class="question">
         <label>Do que você seria capaz de fazer para realizá-lo?</label>
         <textarea name="sacrificio" required rows="3"></textarea>
-        <button type="button" class="nextBtn">Próxima</button>
+        <button type="button" id="nextBtn">Próxima</button>
       </div>
 
       <div class="question">
         <label>Se você tivesse um superpoder, qual seria?</label>
         <textarea name="poder" required rows="3"></textarea>
-        <button type="button" class="nextBtn">Próxima</button>
+        <button type="button" id="nextBtn">Próxima</button>
       </div>
 
       <div class="question">
         <label>Me fale sobre você:</label>
         <textarea name="sobre" required rows="3"></textarea>
-        <button type="button" class="nextBtn">Próxima</button>
+        <button type="button" id="nextBtn">Próxima</button>
       </div>
 
       <div class="question">
@@ -120,8 +120,8 @@
         current++;
         questions[current].classList.add('active');
 
-        // Scroll para o topo da pergunta atual (bom para mobile)
-        questions[current].scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // **Scroll removido para evitar scroll automático**
+        // questions[current].scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
 
       nextBtns.forEach(btn => {

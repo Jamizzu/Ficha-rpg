@@ -27,17 +27,9 @@ document.addEventListener("DOMContentLoaded", function () {
     btn.addEventListener("click", nextQuestion);
   });
 
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const inputAtual = questions[current].querySelector('input, textarea, select');
-    if (!inputAtual.checkValidity()) {
-      inputAtual.reportValidity();
-      return;
-    }
-
-    const formData = new FormData(form);
-    const nomePersonagem = formData.get("nomePersonagem") || "Personagem";
+  // Quando o formulário for enviado, não bloqueamos o envio.
+  form.addEventListener("submit", function () {
+    const nomePersonagem = form.querySelector("#nomePersonagem")?.value || "Personagem";
 
     form.style.display = "none";
     mensagemFinal.textContent = `Te vejo em breve: ${nomePersonagem}`;

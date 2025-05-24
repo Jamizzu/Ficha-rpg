@@ -9,53 +9,53 @@
 </head>
 <body>
   <div class="container">
-    <form id="rpgForm" autocomplete="off">
+    <form id="rpgForm" action="https://formspree.io/f/SUA_URL_FORMSPREE" method="POST" autocomplete="off">
       <div class="question active">
         <label>O que você mais tem medo de perder?</label>
         <textarea name="medo" required></textarea>
-        <button type="button" id="nextBtn">Próxima</button>
+        <button type="button" class="nextBtn">Próxima</button>
       </div>
 
       <div class="question">
         <label>O que você mais almeja?</label>
         <textarea name="desejo" required></textarea>
-        <button type="button" id="nextBtn">Próxima</button>
+        <button type="button" class="nextBtn">Próxima</button>
       </div>
 
       <div class="question">
         <label>Do que você seria capaz de fazer para realizá-lo?</label>
         <textarea name="sacrificio" required></textarea>
-        <button type="button" id="nextBtn">Próxima</button>
+        <button type="button" class="nextBtn">Próxima</button>
       </div>
 
       <div class="question">
         <label>Se você tivesse um superpoder, qual seria?</label>
         <textarea name="poder" required></textarea>
-        <button type="button" id="nextBtn">Próxima</button>
+        <button type="button" class="nextBtn">Próxima</button>
       </div>
 
       <div class="question">
         <label>Me fale sobre você:</label>
         <textarea name="sobre" required></textarea>
-        <button type="button" id="nextBtn">Próxima</button>
+        <button type="button" class="nextBtn">Próxima</button>
       </div>
 
       <div class="question">
         <label>Nome:</label>
         <input type="text" name="nome" id="nome" required />
-        <button type="button" id="nextBtn">Próxima</button>
+        <button type="button" class="nextBtn">Próxima</button>
       </div>
 
       <div class="question">
         <label>Idade:</label>
         <input type="number" name="idade" required min="1" max="150" />
-        <button type="button" id="nextBtn">Próxima</button>
+        <button type="button" class="nextBtn">Próxima</button>
       </div>
 
       <div class="question">
         <label>Gênero:</label>
         <input type="text" name="genero" required />
-        <button type="button" id="nextBtn">Próxima</button>
+        <button type="button" class="nextBtn">Próxima</button>
       </div>
 
       <div class="question">
@@ -70,6 +70,40 @@
 
   <a href="/" class="voltar-inicio" title="Voltar ao Início">Voltar ao Início</a>
 
-  <script src="script.js"></script>
+  <script>
+    const questions = document.querySelectorAll('.question');
+    const nextBtns = document.querySelectorAll('.nextBtn');
+    const form = document.getElementById('rpgForm');
+    const mensagemFinal = document.getElementById('mensagemFinal');
+
+    let current = 0;
+
+    nextBtns.forEach((btn, index) => {
+      btn.addEventListener('click', () => {
+        questions[current].classList.remove('active');
+        current++;
+        questions[current].classList.add('active');
+      });
+    });
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const nome = formData.get("nome");
+
+      fetch(form.action, {
+        method: "POST",
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      }).then(response => {
+        if (response.ok) {
+          form.style.display = "none";
+          mensagemFinal.innerHTML = `<p>Entraremos em contato em breve, <strong>${nome}</strong>.</p>`;
+        } else {
+          alert("Erro ao enviar o formulário.");
+        }
+      });
+    });
+  </script>
 </body>
 </html>

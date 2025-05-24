@@ -32,8 +32,7 @@ body {
   width: 100%;
   position: relative;
   overflow: hidden;
-  min-height: 360px;
-  max-height: 420px;
+  height: 420px; /* FIXO para evitar scrolls inesperados */
 }
 
 .question {
@@ -43,6 +42,7 @@ body {
   transform: translateY(40px);
   pointer-events: none;
   transition: opacity 0.5s ease, transform 0.5s ease;
+  scroll-margin-top: 0 !important;
 }
 
 .question.active {
@@ -51,10 +51,6 @@ body {
   pointer-events: auto;
   position: relative;
   animation: fadeInUp 0.5s ease both;
-}
-
-.question.slide-out-left {
-  animation: fadeOutUp 0.4s ease forwards;
 }
 
 @keyframes fadeInUp {
@@ -68,17 +64,6 @@ body {
   }
 }
 
-@keyframes fadeOutUp {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(-40px);
-  }
-}
-
 label {
   font-weight: 700;
   font-size: 1.2em;
@@ -87,8 +72,8 @@ label {
   color: #e0d9ff;
 }
 
-input,
-textarea {
+textarea,
+input {
   width: 100%;
   padding: 14px 16px;
   margin-top: 8px;
@@ -97,19 +82,17 @@ textarea {
   background: #222;
   color: #fff;
   font-size: 1.05em;
-  font-weight: 400;
-  font-family: 'Unbounded', sans-serif;
-  transition: box-shadow 0.3s ease;
   resize: vertical;
   min-height: 48px;
+  font-family: 'Unbounded', sans-serif;
 }
 
 textarea {
   min-height: 100px;
 }
 
-input:focus,
-textarea:focus {
+textarea:focus,
+input:focus {
   outline: none;
   box-shadow: 0 0 12px var(--cor-principal);
 }
@@ -122,12 +105,10 @@ button {
   border: none;
   border-radius: 10px;
   font-weight: 700;
-  font-size: 1.1em;
   cursor: pointer;
-  font-family: 'Unbounded', sans-serif;
-  user-select: none;
+  font-size: 1.1em;
   transition: background 0.3s ease, transform 0.3s ease;
-  box-shadow: 0 4px 12px rgba(162, 89, 255, 0.5);
+  font-family: 'Unbounded', sans-serif;
 }
 
 button:hover,
@@ -138,45 +119,20 @@ button:focus {
 }
 
 #mensagemFinal {
-  display: none;
-  opacity: 0;
   font-size: 1.6em;
-  font-weight: 700;
   text-align: center;
   margin-top: 30px;
   color: var(--cor-principal);
-  font-family: 'Unbounded', sans-serif;
+  display: none;
+  opacity: 0;
   animation: fadeInMove 1s ease forwards;
+  font-weight: 700;
+  font-family: 'Unbounded', sans-serif;
 }
 
 #mensagemFinal.show {
   display: block;
   opacity: 1;
-}
-
-.voltar-inicio {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  padding: 12px 24px;
-  background-color: var(--cor-principal);
-  color: #000;
-  font-size: 1.05em;
-  font-weight: 700;
-  border-radius: 10px;
-  text-decoration: none;
-  font-family: 'Unbounded', sans-serif;
-  transition: background 0.3s ease, transform 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
-  z-index: 1000;
-  user-select: none;
-}
-
-.voltar-inicio:hover,
-.voltar-inicio:focus {
-  background-color: var(--cor-principal-hover);
-  transform: scale(1.05);
-  outline: none;
 }
 
 @keyframes fadeInMove {

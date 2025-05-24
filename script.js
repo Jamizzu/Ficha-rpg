@@ -1,7 +1,7 @@
 const script = document.createElement('script');
 script.src = "https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js";
 script.onload = () => {
-  emailjs.init("SEU_USER_ID");
+  emailjs.init("zZ0Ngt7VyUhvCPYgr");
 };
 document.head.appendChild(script);
 
@@ -40,7 +40,7 @@ form.addEventListener("submit", function (e) {
 
   const nome = document.getElementById("nome").value;
 
-  emailjs.sendForm("SEU_SERVICE_ID", "SEU_TEMPLATE_ID", this)
+  emailjs.sendForm("zZ0Ngt7VyUhvCPYgr", "template_svsphyx", this)
     .then(() => {
       form.style.display = "none";
       mensagemFinal.style.display = "block";

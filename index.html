@@ -1,119 +1,78 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Formulário RPG</title>
-  <style>
-    .question {
-      display: none;
-    }
-
-    .question.active {
-      display: block;
-    }
-
-    #mensagemFinal.show {
-      margin-top: 20px;
-      font-size: 1.2em;
-      color: green;
-    }
-
-    button {
-      margin-top: 10px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="container">
+    <form id="rpgForm" novalidate>
+      <div class="question active">
+        <label for="medo">O seu maior medo?</label>
+        <textarea id="medo" name="medo" required></textarea>
+        <button type="button" class="nextBtn">Próxima</button>
+      </div>
 
-  <form id="rpgForm" class="container">
-    <div class="question active">
-      <label for="nome">Qual seu nome?</label>
-      <input type="text" name="nome" required>
-      <button type="button" class="nextBtn">Próxima</button>
-    </div>
+      <div class="question">
+        <label for="desejo">O seu maior desejo?</label>
+        <textarea id="desejo" name="desejo" required></textarea>
+        <button type="button" class="nextBtn">Próxima</button>
+      </div>
 
-    <div class="question">
-      <label for="historia">Conte sua história.</label>
-      <textarea name="historia" required></textarea>
-      <button type="button" class="nextBtn">Próxima</button>
-    </div>
+      <div class="question">
+        <label for="sacrifício">O que você sacrificaria para realizá-lo?</label>
+        <textarea id="sacrifício" name="sacrifício" required></textarea>
+        <button type="button" class="nextBtn">Próxima</button>
+      </div>
 
-    <div class="question">
-      <label for="final">Finalização</label>
-      <input type="text" name="final" required>
-      <button type="submit">Enviar</button>
-    </div>
-  </form>
+      <div class="question">
+        <label for="poder">Se você fosse para ter um poder, qual seria?</label>
+        <textarea id="poder" name="poder" required></textarea>
+        <button type="button" class="nextBtn">Próxima</button>
+      </div>
 
-  <div id="mensagemFinal"></div>
+      <div class="question">
+        <label for="sobre">Conte sobre você:</label>
+        <textarea id="sobre" name="sobre" required></textarea>
+        <button type="button" class="nextBtn">Próxima</button>
+      </div>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      let current = 0;
-      const questions = document.querySelectorAll(".question");
-      const total = questions.length;
-      const form = document.getElementById("rpgForm");
-      const mensagemFinal = document.getElementById("mensagemFinal");
+      <div class="question">
+        <label for="nomePersonagem">Nome do seu personagem:</label>
+        <input type="text" id="nomePersonagem" name="nomePersonagem" required />
+        <button type="button" class="nextBtn">Próxima</button>
+      </div>
 
-      function nextQuestion() {
-        const inputAtual = questions[current].querySelector('input, textarea');
-        if (!inputAtual.checkValidity()) {
-          inputAtual.reportValidity();
-          return;
-        }
+      <div class="question">
+        <label for="idadePersonagem">Idade do personagem:</label>
+        <input type="number" id="idadePersonagem" name="idadePersonagem" required min="1" />
+        <button type="button" class="nextBtn">Próxima</button>
+      </div>
 
-        questions[current].classList.remove("active");
-        current++;
+      <div class="question">
+        <label for="genero">Gênero:</label>
+        <select id="genero" name="genero" required>
+          <option value="" disabled selected>Selecione</option>
+          <option value="masculino">Masculino</option>
+          <option value="feminino">Feminino</option>
+          <option value="outro">Outro</option>
+          <option value="prefiroNaoDizer">Prefiro não dizer</option>
+        </select>
+        <button type="button" class="nextBtn">Próxima</button>
+      </div>
 
-        if (current < total) {
-          questions[current].classList.add("active");
+      <div class="question">
+        <label for="telefone">O SEU NÚMERO DE TELEFONE:</label>
+        <input type="tel" id="telefone" name="telefone" required pattern="[0-9\s()+-]{8,}" />
+        <button type="submit">Enviar</button>
+      </div>
+    </form>
 
-          setTimeout(() => {
-            questions[current].scrollIntoView({ behavior: "smooth", block: "center" });
-          }, 150);
-        }
-      }
+    <div id="mensagemFinal"></div>
+  </div>
 
-      document.querySelectorAll("button.nextBtn").forEach(btn => {
-        btn.addEventListener("click", nextQuestion);
-      });
-
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        const inputAtual = questions[current].querySelector('input, textarea');
-        if (!inputAtual.checkValidity()) {
-          inputAtual.reportValidity();
-          return;
-        }
-
-        const formData = new FormData(form);
-        const nome = formData.get("nome") || "Usuário";
-
-        fetch("https://formspree.io/f/xblovjbb", {
-          method: "POST",
-          body: formData,
-          headers: { 'Accept': 'application/json' }
-        })
-        .then(response => {
-          if (response.ok) {
-            form.style.display = "none";
-            mensagemFinal.innerHTML = `Entraremos em contato em breve, <strong>${nome.toUpperCase()}</strong>.`;
-            mensagemFinal.classList.add("show");
-            mensagemFinal.scrollIntoView({ behavior: "smooth", block: "center" });
-          } else {
-            return response.json().then(data => {
-              throw new Error(data.error || "Erro ao enviar formulário.");
-            });
-          }
-        })
-        .catch((err) => {
-          alert("Erro ao enviar. Tente novamente.");
-          console.error(err);
-        });
-      });
-    });
-  </script>
-
+  <script src="script.js"></script>
 </body>
 </html>

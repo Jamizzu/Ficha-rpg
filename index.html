@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ficha de RPG - Nexus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <form id="rpgForm" autocomplete="off">
+      <div class="question active">
+        <label>O que você mais tem medo de perder?</label>
+        <textarea name="medo" required></textarea>
+        <button type="button" id="nextBtn">Próxima</button>
+      </div>
+
+      <div class="question">
+        <label>O que você mais almeja?</label>
+        <textarea name="desejo" required></textarea>
+        <button type="button" id="nextBtn">Próxima</button>
+      </div>
+
+      <div class="question">
+        <label>Do que você seria capaz de fazer para realizá-lo?</label>
+        <textarea name="sacrificio" required></textarea>
+        <button type="button" id="nextBtn">Próxima</button>
+      </div>
+
+      <div class="question">
+        <label>Se você tivesse um superpoder, qual seria?</label>
+        <textarea name="poder" required></textarea>
+        <button type="button" id="nextBtn">Próxima</button>
+      </div>
+
+      <div class="question">
+        <label>Me fale sobre você:</label>
+        <textarea name="sobre" required></textarea>
+        <button type="button" id="nextBtn">Próxima</button>
+      </div>
+
+      <div class="question">
+        <label>Nome:</label>
+        <input type="text" name="nome" id="nome" required />
+        <button type="button" id="nextBtn">Próxima</button>
+      </div>
+
+      <div class="question">
+        <label>Idade:</label>
+        <input type="number" name="idade" required min="1" max="150" />
+        <button type="button" id="nextBtn">Próxima</button>
+      </div>
+
+      <div class="question">
+        <label>Gênero:</label>
+        <input type="text" name="genero" required />
+        <button type="button" id="nextBtn">Próxima</button>
+      </div>
+
+      <div class="question">
+        <label>Seu telefone:</label>
+        <input type="tel" name="telefone" required pattern="[\d\s\-\+\(\)]{7,}" placeholder="Ex: (99) 99999-9999" />
+        <button type="submit">Enviar</button>
+      </div>
+    </form>
+
+    <div id="mensagemFinal"></div>
+  </div>
+
+  <a href="/" class="voltar-inicio" title="Voltar ao Início">Voltar ao Início</a>
+
+  <script src="script.js"></script>
+</body>
+</html>
